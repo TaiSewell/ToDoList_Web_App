@@ -42,3 +42,9 @@ def get_db():
         db.close()
 
 db_dependency = Annotated[Session, Depends(get_db)]
+
+@tdlApp.post("/users/", status_code=status.HTTP_201_CREATED)
+async def create_user(user: UserBase, db: db_dependency):
+    db_user = Database.models.User(**user.dict())
+    db.add(db_user)
+    db.commit()
