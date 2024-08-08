@@ -1,6 +1,14 @@
+# Ignore everything
 *
 
-!/API
-!/Database
-!/Front-End
-!main.py
+# Track These API Files
+!/src/
+!/src/app/
+!/src/app/*.py
+
+!/src/tests/
+!/src/tests/*.py
+
+
+# Explicitly Ignore These
+venv/Scripts/
