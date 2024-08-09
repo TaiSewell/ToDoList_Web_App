@@ -5,9 +5,13 @@
 !/src/
 !/src/app/
 !/src/app/*.py
+!/src/app/README.md
 
-!/src/tests/
-!/src/tests/*.py
+
+# Track these front-end files
+!/frontend/src/*.css
+!/Front-End/src/README.md
+
 
 
 # Explicitly Ignore These
