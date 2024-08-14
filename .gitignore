@@ -1,15 +1,15 @@
 # Ignore Everything
 *
 
-
 # Track These Database Files
 !/Database/
 !/Database/src/
+!/Database/src/*.py
 
 # Track These API Files
 !/API/
 
 # Track These Front-End Files
-!/frontend
-!/frontend/README.md
+!/frontend/
+
 
