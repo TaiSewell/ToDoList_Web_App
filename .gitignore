@@ -13,6 +13,7 @@
 !/frontend/README.md
 !/frontend/src
 !/frontend/src/*.css
+!/frontend/src/*.js
 
 
 
