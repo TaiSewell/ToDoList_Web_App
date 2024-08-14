@@ -1,7 +1,15 @@
+# Ignore Everything
 *
 
-!/API
-!/Database
-!/Front-End
-!main.py
-!*.py
+
+# Track These Database Files
+!/Database/
+!/Database/src/
+
+# Track These API Files
+!/API/
+
+# Track These Front-End Files
+!/frontend
+!/frontend/README.md
+
