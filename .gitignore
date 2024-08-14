@@ -12,7 +12,7 @@
 
 # Track These Front-End Files
 !/frontend/
-!/frontend/src
+!/frontend/README.md
 
 
 
