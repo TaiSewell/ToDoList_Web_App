@@ -1,6 +1,10 @@
 # Ignore everything
 *
 
+# Track These Front-End Files
+!/frontend/
+!/frontend/README.md
+
 # Track These API Files
 !/src/
 !/src/app/
