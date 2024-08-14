@@ -3,6 +3,7 @@
 
 # Track These Database Files
 !/Database/
+!/Database/README.md
 !/Database/src/
 !/Database/src/*.py
 
