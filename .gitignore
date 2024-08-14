@@ -12,5 +12,7 @@
 
 # Track These Front-End Files
 !/frontend/
+!/frontend/src
+
 
 
