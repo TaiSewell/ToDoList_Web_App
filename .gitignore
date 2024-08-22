@@ -1,21 +1,6 @@
-# Ignore everything
 *
 
-# Track These API Files
-!/src/
-!/src/app/
-!/src/app/*.py
-!/src/app/README.md
-
-
-# Track these front-end files
-!/frontend
-!/frontend/README.md
-!/frontend/src
-!/frontend/src/*.css
-
-
-
-
-# Explicitly Ignore These
-venv/Scripts/
+!/API
+!/Database
+!/Front-End
+!main.py
