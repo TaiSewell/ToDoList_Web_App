@@ -4,7 +4,7 @@
 # Track These API Files
 !/API/
 !/API/DockerFile
-!/API/requirments.txt
+!/API/requirements.txt
 !/src/
 !/src/app/
 !/src/app/*.py
