@@ -4,6 +4,7 @@
 # Track These API Files
 !/API/
 !/API/DockerFile
+!/API/requirments.txt
 !/src/
 !/src/app/
 !/src/app/*.py
@@ -17,7 +18,9 @@
 !/frontend/src
 !/frontend/src/*.css
 
-
+# Track these Database files
+!/Database
+!/Database/requirements.txt
 
 
 # Explicitly Ignore These
