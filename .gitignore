@@ -23,5 +23,7 @@
 !/Database/requirements.txt
 
 
+# Explicitly Track These
+!docker-compose.yml
 # Explicitly Ignore These
 venv/Scripts/
