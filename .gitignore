@@ -17,6 +17,8 @@
 !/frontend/README.md
 !/frontend/src
 !/frontend/src/*.css
+!/frontend/package-lock.json
+!/frontend/package.json
 
 # Track these Database files
 !/Database
@@ -25,5 +27,6 @@
 
 # Explicitly Track These
 !docker-compose.yml
+
 # Explicitly Ignore These
 venv/Scripts/
