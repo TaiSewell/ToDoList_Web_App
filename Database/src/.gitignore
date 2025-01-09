@@ -1,0 +1,9 @@
+# Ignore SQL dumps and temporary files
+*.sql
+*.sqlite3
+tmp/
+logs/
+
+# Track these Database files
+!/Database
+!/Database/requirements.txt

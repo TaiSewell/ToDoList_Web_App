@@ -1,0 +1,22 @@
+# Python-related
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.env
+*.log
+
+# Migrations
+migrations/
+alembic/
+
+# Track These API Files
+!/API/
+!/API/DockerFile
+!/API/requirements.txt
+!/src/
+!/src/app/
+!/src/app/*.py
+!/src/app/README.md
