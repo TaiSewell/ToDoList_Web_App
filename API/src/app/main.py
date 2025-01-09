@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from Database.database import engine
+from Database import engine
 from Database import Base  # Import Base from models
 
 tdlapp = FastAPI()
