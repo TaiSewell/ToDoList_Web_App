@@ -1,0 +1,20 @@
+# Ignore Python bytecode
+__pycache__/
+*.pyc
+
+# Ignore environment variables file (keep sensitive data private)
+.env
+
+# Ignore log files
+*.log
+
+# Ignore virtual environment folders
+venv/
+env/
+
+# Ignore any local database files
+*.sqlite3
+*.db
+
+# Ignore Docker-related files for local dev
+docker-compose.override.yml

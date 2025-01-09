@@ -1,6 +1,10 @@
 from fastapi import FastAPI
+from Database.database import engine
+from Database import Base  # Import Base from models
 
 tdlapp = FastAPI()
+
+Base.metadata.create_all(bind=engine)
 
 @tdlapp.get("/")
 def read_root():

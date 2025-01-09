@@ -2,7 +2,7 @@
 FROM python:3.11-slim
 
 # Set work directory
-WORKDIR /app/src
+WORKDIR /API/src
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -17,8 +17,7 @@ RUN pip install --upgrade pip setuptools wheel \
     && rm -rf /root/.cache/pip
 
 # Copy project files
-COPY . /app/src
-
+COPY . /API/src
 
 # Run the FastAPI application using uvicorn
 CMD ["uvicorn", "src.app.main:tdlapp", "--host", "0.0.0.0", "--port", "8000"]

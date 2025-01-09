@@ -1,31 +1,8 @@
-# Ignore everything
-*
+# Ignore Thumbs.db files (Windows-specific)
+Thumbs.db
 
-# Track These API Files
-!/API/
-!/API/DockerFile
-!/API/requirements.txt
-!/src/
-!/src/app/
-!/src/app/*.py
-!/src/app/README.md
-
-
-# Track these front-end files
-!/frontend
-!/frontend/public
-!/frontend/public/*
-!/frontend/DockerFile
-!/frontend/README.md
-!/frontend/src
-!/frontend/src/*.css
-!/frontend/package-lock.json
-!/frontend/package.json
-
-# Track these Database files
-!/Database
-!/Database/requirements.txt
-
+# Ignore .env
+.env
 
 # Explicitly Track These
 !docker-compose.yml
