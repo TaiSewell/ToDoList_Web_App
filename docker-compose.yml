@@ -1,7 +1,7 @@
 services:
   # API container
   api:
-    build: ./api
+    build: ./API
     container_name: api-container
     volumes:
       - ./API:/app/API
@@ -9,14 +9,15 @@ services:
     ports:
       - "${API_PORT}:${API_PORT}"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     environment:
-      DATABASE_URL: ${DATABASE_URL}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      DATABASE_URL: ${DATABASE_URL}
     networks:
       - app-network
+    command: uvicorn API.src.app.main:tdlapp --host 0.0.0.0 --port ${API_PORT} --reload
 
   # Database container (MySQL)
   database:
@@ -25,10 +26,15 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 # Networks for communication between containers
 networks:
