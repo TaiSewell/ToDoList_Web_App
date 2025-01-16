@@ -1,9 +1,20 @@
-# Ignore SQL dumps and temporary files
-*.sql
-*.sqlite3
-tmp/
-logs/
+# Ignore Python bytecode
+__pycache__/
+*.pyc
 
-# Track these Database files
-!/Database
-!/Database/requirements.txt
+# Ignore environment variables file
+.env
+
+# Ignore any local database files (if you have SQLite or any local DB files)
+*.sqlite3
+*.db
+
+# Ignore virtual environment folders
+venv/
+env/
+
+# Ignore Docker-related files for local dev
+docker-compose.override.yml
+
+# Ignore database logs
+*.log

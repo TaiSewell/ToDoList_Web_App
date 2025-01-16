@@ -1,49 +1,42 @@
-
 services:
-  frontend:
-    image: frontend-image 
-    build: 
-      context: ./frontend
-      dockerfile: DockerFile
-    ports:
-      - "80:80"
-    depends_on:
-      - api
-    networks:
-      - app-network
-
+  # API container
   api:
-    image: api-image 
-    build: 
-      context: ./api
-      dockerfile: DockerFile
-    ports:
-      - "8000:8000"
-    environment:
-      - DATABASE_URL=mysql://user:password@db:3306/mydatabase
-    depends_on:
-      - db
-    networks:
-      - app-network
-
-  db:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_USER: user
-      MYSQL_PASSWORD: userpassword
-      MYSQL_DATABASE: db
-    ports:
-      - "3307:3306"
-    networks:
-      - app-network
+    build: ./API
+    container_name: api-container
     volumes:
-      - db_data:/var/lib/mysql
+      - ./API:/app/API
+      - ./Database:/app/Database
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      DATABASE_URL: ${DATABASE_URL}
+    networks:
+      - app-network
+    command: uvicorn API.src.app.main:tdlapp --host 0.0.0.0 --port ${API_PORT} --reload
 
+  # Database container (MySQL)
+  database:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# Networks for communication between containers
 networks:
   app-network:
     driver: bridge
-
-volumes:
-  db_data:
-
