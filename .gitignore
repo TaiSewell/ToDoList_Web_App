@@ -2,6 +2,8 @@
 Thumbs.db
 
 # Ignore .env
+venv
+# Ignore .env
 .env
 
 # Explicitly Track These
