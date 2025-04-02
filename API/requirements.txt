@@ -5,3 +5,5 @@ PyMySQL==1.0.2
 python-dotenv==1.0.1
 pydantic==2.8.2
 cryptography==41.0.3
+python-jose==3.4.0
+passlib[bcrypt]==1.7.4
