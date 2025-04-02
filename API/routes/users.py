@@ -8,6 +8,31 @@ Description: File that contains all user related
 endpoints/routes.
 ***********************************************
 """
+from fastapi import Depends, HTTPException, Request
+from sqlalchemy.orm import Session
+from ..app.hashing import hash_password
+from ..app.auth import get_current_user
+from ..app.database import get_db
+from ..app.models import User
+
+router = APIRouter()
+
+@router.post("/login")
+async def login_user(request: Request, db: Session = Depends(get_db)):
+    user_data = await request.json()
+    username = user_data.get("username")
+    password = user_data.get("password")
+
+    if not username or not password:
+        raise HTTPException(status_code=400, detail="Username and password are required")
+
+    user = db.query(User).filter(User.username == username).first()
+    if user is None or not verify_password(password, user.hashed_password):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    access_token = create_access_token(data={"sub": username})
+    return {"access_token": access_token, "token_type": "bearer"}
+
 
 """
 ***********************************************
@@ -24,14 +49,16 @@ returns: The created user object.
 async def create_user(request: Request, db: Session = Depends(get_db)):
     user_data = await request.json()
     username = user_data.get("username")
-    hashed_password = user_data.get("hashed_password")
+    password = user_data.get("password")
 
-    if not username or not hashed_password:
-        raise HTTPException(status_code=400, detail="Username and hashed_password are required")
+    if not username or not password:
+        raise HTTPException(status_code=400, detail="Username and password are required")
 
     existing_user = db.query(models.User).filter(models.User.username == username).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Username already registered")
+    
+    hashed_password = hash_password(password)
     db_user = models.User(username=username, hashed_password=hashed_password)
     db.add(db_user)
     db.commit()
@@ -49,8 +76,8 @@ returns: A list of users.
 ***********************************************
 """
 @tdlapp.get("/users/")
-def read_users(db: Session = Depends(get_db)):
-    users = db.query(models.User).all()
+def read_users(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    users = db.query(User).all()
     return users
 
 """

@@ -13,13 +13,18 @@ from fastapi import FastAPI, Depends, HTTPException, Request
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from Database.src import models, database
-from datatime import datetime, timedelta
+from datetime import datetime, timedelta
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 import secrets
+from routes import users, auth
 
 
 tdlapp = FastAPI()
+
+# Include Routes from auth
+tdlapp.include_router(users.router, prefix="/users", tags=["users"])
+tdlapp.include_router(auth.router, prefix="/auth", tags=["auth"])
 
 """
 ***********************************************
@@ -58,10 +63,3 @@ returns: A welcome message.
 def read_root():
     return "Welcome to my To-Do List API!"
 
-
-# JWT Configuration
-SECRET_KEY = os.getenv("JWT_SECRET_KEY")
-ALGORITHM = "HS256"
-
-# Password hashing context 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
