@@ -10,7 +10,8 @@ Description: File that contains user-related endpoints.
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy import text
 from sqlalchemy.orm import Session
-from Database.src import models, database
+from Database.src import database, models
+from ..auth import hash_password, create_access_token, get_current_user
 
 # Create a router
 router = APIRouter()
@@ -42,52 +43,51 @@ returns: The created user object.
 async def create_user(request: Request, db: Session = Depends(get_db)):
     user_data = await request.json()
     username = user_data.get("username")
-    hashed_password = user_data.get("hashed_password")
+    password = user_data.get("password")
 
-    if not username or not hashed_password:
-        raise HTTPException(status_code=400, detail="Username and hashed_password are required")
+    if not username or not password:
+        raise HTTPException(status_code=400, detail="Username and password are required")
 
+    # Check if the username already exists
     existing_user = db.query(models.User).filter(models.User.username == username).first()
     if existing_user:
-        raise HTTPException(status_code=400, detail="Username already registered")
-    db_user = models.User(username=username, hashed_password=hashed_password)
-    db.add(db_user)
+        raise HTTPException(status_code=400, detail="Username already exists")
+
+    # Hash the password and create the user
+    hashed_password = hash_password(password)
+    new_user = models.User(username=username, hashed_password=hashed_password, role=role)
+    db.add(new_user)
     db.commit()
-    db.refresh(db_user)
-    return db_user
+    db.refresh(new_user)
 
-"""
-***********************************************
-Method: read_users()
+      # Generate a JWT token for the new user
+    access_token = create_access_token(data={"sub": new_user.username})
 
-Description: This method is used to fetch all 
-users.
-
-returns: A list of users.
-***********************************************
-"""
-@router.get("/users/")
-def read_users(db: Session = Depends(get_db)):
-    users = db.query(models.User).all()
-    return users
+    return {
+        "id": new_user.id,
+        "username": new_user.username,
+        "access_token": access_token,
+        "token_type": "bearer",
+    }
 
 """
 ***********************************************
 Method: read_user()
 
 
-Description: This method is used to retrieve a user
-based on the user_id from the database.
+Description: This method is used to retrieve a users
+personal profile.
 
 returns: A user object.
 ***********************************************
 """
-@router.get("/users/{user_id}")
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.id == user_id).first()
-    if user is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return user
+@router.get("/users/me")
+def read_user_profile(current_user: models.User = Depends(get_current_user)):
+    return {
+        "id": current_user.id,
+        "username": current_user.username,
+        # Add any other fields you want to expose
+    }
 
 """
 ***********************************************
@@ -99,23 +99,19 @@ user from the database by their ID.
 returns: A message indicating the result.
 ***********************************************
 """
-@router.delete("/users/{user_id}")
-def delete_user(user_id: int, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.id == user_id).first()
+@router.delete("/users/me")
+def delete_user(current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    # Fetch the current user from the database
+    user = db.query(models.User).filter(models.User.id == current_user.id).first()
 
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
 
+    # Delete the user
     db.delete(user)
     db.commit()
 
-    user_count = db.query(models.User).count()
-    if user_count == 0:
-        db.execute(text("ALTER TABLE users AUTO_INCREMENT = 1"))
-        db.commit()
-    
-    return {"detail": "User deleted"}
-
+    return {"detail": "Your account has been deleted"}
 
 """
 ***********************************************
@@ -127,11 +123,12 @@ user's information.
 returns: The updated user details.
 ***********************************************
 """
+# 4. Update a User
 @router.put("/users/{user_id}")
 async def update_user(user_id: int, request: Request, db: Session = Depends(get_db)):
     user_data = await request.json()
     username = user_data.get("username")
-    hashed_password = user_data.get("hashed_password")
+    password = user_data.get("password")  # Accept plain password for hashing
 
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if user is None:
@@ -139,8 +136,8 @@ async def update_user(user_id: int, request: Request, db: Session = Depends(get_
     
     if username:
         user.username = username
-    if hashed_password:
-        user.hashed_password = hashed_password
+    if password:
+        user.hashed_password = hash_password(password)  # Hash the new password
 
     db.commit()
     db.refresh(user)

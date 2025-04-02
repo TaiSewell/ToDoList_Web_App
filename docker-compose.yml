@@ -2,6 +2,8 @@ services:
   # API container
   api:
     build: ./API
+    env_file:
+      - .env
     container_name: api-container
     volumes:
       - ./API:/app/API

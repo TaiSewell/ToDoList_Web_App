@@ -2,13 +2,24 @@ from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
 from passlib.context import CryptContext
+from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from dotenv import load_dotenv
 import os
+from Database.src import database, models
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Import get_db function
+def get_db():
+    db = database.SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 
 # Secret key for signing JWTs (use a secure key in production)
 SECRET_KEY = os.getenv("JWT_SECRET_KEY")
@@ -53,3 +64,20 @@ def decode_access_token(token: str):
             detail="Invalid token",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+# Dependency to get the current user
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    payload = decode_access_token(token)
+    username: str = payload.get("sub")
+    if username is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
