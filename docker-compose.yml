@@ -17,12 +17,9 @@ services:
       DATABASE_URL: ${DATABASE_URL}
     networks:
       - app-network
-    command: uvicorn API.src.app.main:tdlapp --host 0.0.0.0 --port ${API_PORT} --reload
 
-  # Database container (MySQL)
-  database:
-    image: mysql:latest
-    container_name: mysql-container
+  db:
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
