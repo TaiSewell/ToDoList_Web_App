@@ -21,4 +21,4 @@ COPY . /app
 
 
 # Run the FastAPI application using uvicorn
-CMD ["uvicorn", "src.app.main:tdlapp", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:tdlapp", "--host", "0.0.0.0", "--port", "8000"]
