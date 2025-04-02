@@ -18,7 +18,6 @@ tdlapp = FastAPI()
 # Include routers from separate files
 tdlapp.include_router(users.router)
 tdlapp.include_router(tasks.router)
-tdlapp.include_router(admin.router)
 
 """
 ***********************************************

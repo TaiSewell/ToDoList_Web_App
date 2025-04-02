@@ -11,7 +11,8 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from Database.src import database, models
-from ..auth import hash_password, create_access_token, get_current_user
+from ..auth import hash_password, verify_password, create_access_token, get_current_user
+from fastapi.security import OAuth2PasswordRequestForm
 
 # Create a router
 router = APIRouter()
@@ -55,7 +56,7 @@ async def create_user(request: Request, db: Session = Depends(get_db)):
 
     # Hash the password and create the user
     hashed_password = hash_password(password)
-    new_user = models.User(username=username, hashed_password=hashed_password, role=role)
+    new_user = models.User(username=username, hashed_password=hashed_password)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -69,6 +70,35 @@ async def create_user(request: Request, db: Session = Depends(get_db)):
         "access_token": access_token,
         "token_type": "bearer",
     }
+
+"""
+***********************************************
+Method: login_for_access_token()
+
+Description: This method is used to authenticate 
+an existing user by verifying their credentials 
+(username and password). If the credentials are 
+valid, it generates and returns a JWT access token.
+
+returns: A dictionary containing the access token 
+and token type.
+***********************************************
+"""
+@router.post("/token")
+def login_for_access_token(
+    form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
+):
+    # Check if the user exists
+    user = db.query(models.User).filter(models.User.username == form_data.username).first()
+    if not user or not verify_password(form_data.password, user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    # Create a JWT token
+    access_token = create_access_token(data={"sub": user.username})
+    return {"access_token": access_token, "token_type": "bearer"}
 
 """
 ***********************************************
@@ -88,30 +118,6 @@ def read_user_profile(current_user: models.User = Depends(get_current_user)):
         "username": current_user.username,
         # Add any other fields you want to expose
     }
-
-"""
-***********************************************
-Method: delete_user()
-
-Description: This method is used to delete a 
-user from the database by their ID.
-
-returns: A message indicating the result.
-***********************************************
-"""
-@router.delete("/users/me")
-def delete_user(current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
-    # Fetch the current user from the database
-    user = db.query(models.User).filter(models.User.id == current_user.id).first()
-
-    if user is None:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    # Delete the user
-    db.delete(user)
-    db.commit()
-
-    return {"detail": "Your account has been deleted"}
 
 """
 ***********************************************
@@ -142,3 +148,27 @@ async def update_user(user_id: int, request: Request, db: Session = Depends(get_
     db.commit()
     db.refresh(user)
     return user
+
+"""
+***********************************************
+Method: delete_user()
+
+Description: This method is used to delete a 
+user from the database by their ID.
+
+returns: A message indicating the result.
+***********************************************
+"""
+@router.delete("/users/me")
+def delete_user(current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    # Fetch the current user from the database
+    user = db.query(models.User).filter(models.User.id == current_user.id).first()
+
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Delete the user
+    db.delete(user)
+    db.commit()
+
+    return {"detail": "Your account has been deleted"}
