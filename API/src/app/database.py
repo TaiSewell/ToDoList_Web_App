@@ -1,5 +1,15 @@
 """
 ***********************************************
+Developer: Tai Sewell
+
+File: database.py
+
+Description: This file contains the DB connection.
+***********************************************
+"""
+
+"""
+***********************************************
 Method: get_db()
 
 Description: This method is used to fetch the 
