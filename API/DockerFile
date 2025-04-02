@@ -2,23 +2,23 @@
 FROM python:3.11-slim
 
 # Set work directory
-WORKDIR /app/API
+WORKDIR /app/src
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV PYTHONPATH=/app/API
 
 # Copy requirements file
-COPY ./API/requirements.txt /app/requirements.txt
+COPY requirements.txt /API/
 
 # Install dependencies
 RUN pip install --upgrade pip setuptools wheel \
-&& pip install -r /app/requirements.txt \
-&& rm -rf /root/.cache/pip
+    && pip install -r /API/requirements.txt \
+    && rm -rf /root/.cache/pip
 
 # Copy project files
-COPY ./API /app/API
+COPY . /app/src
+
 
 # Run the FastAPI application using uvicorn
 CMD ["uvicorn", "src.app.main:tdlapp", "--host", "0.0.0.0", "--port", "8000"]

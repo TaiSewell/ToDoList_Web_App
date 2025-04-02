@@ -1,12 +1,11 @@
 services:
   # API container
   api:
-    build: 
-      context: .
-      dockerfile: ./API/DockerFile
+    build: ./API
     container_name: api-container
     volumes:
       - ./API:/app/API
+      - ./Database:/app/Database
     ports:
       - "${API_PORT}:${API_PORT}"
     depends_on:
@@ -18,7 +17,7 @@ services:
       DATABASE_URL: ${DATABASE_URL}
     networks:
       - app-network
-    command: uvicorn src.app.main:tdlapp --host 0.0.0.0 --port ${API_PORT} --reload
+    command: uvicorn API.src.app.main:tdlapp --host 0.0.0.0 --port ${API_PORT} --reload
 
   # Database container (MySQL)
   database:
@@ -41,6 +40,3 @@ services:
 networks:
   app-network:
     driver: bridge
-
-volumes:
-  database-data:
