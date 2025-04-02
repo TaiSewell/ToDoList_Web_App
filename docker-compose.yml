@@ -17,7 +17,7 @@ services:
       DATABASE_URL: ${DATABASE_URL}
     networks:
       - app-network
-    command: uvicorn API.src.app.main:tdlapp --host 0.0.0.0 --port ${API_PORT} --reload
+    command: uvicorn src.app.main:tdlapp --host 0.0.0.0 --port ${API_PORT} --reload
 
   # Database container (MySQL)
   database:
