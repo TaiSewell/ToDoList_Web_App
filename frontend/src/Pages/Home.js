@@ -9,7 +9,7 @@ function Home() {
             <nav> 
                 <ul>
                     <li><Link href="/">Home</Link></li>
-                    <li><Link href="/Login">Login</Link></li>
+                    <li><Link href="/login">Login</Link></li>
                 </ul>
             </nav>
         </div>

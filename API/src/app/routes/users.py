@@ -73,7 +73,7 @@ async def create_user(request: Request, db: Session = Depends(get_db)):
 
 """
 ***********************************************
-Method: login_for_access_token()
+Method: login()
 
 Description: This method is used to authenticate 
 an existing user by verifying their credentials 
@@ -84,10 +84,8 @@ returns: A dictionary containing the access token
 and token type.
 ***********************************************
 """
-@router.post("/token")
-def login_for_access_token(
-    form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
-):
+@router.post("/login")
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     # Check if the user exists
     user = db.query(models.User).filter(models.User.username == form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):

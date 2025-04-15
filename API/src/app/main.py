@@ -12,8 +12,18 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 from Database.src import models, database
 from .routes import users, tasks
+from fastapi.middleware.cors import CORSMiddleware
 
 tdlapp = FastAPI()
+
+# Add CORS middleware
+tdlapp.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Frontend origin
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
 
 # Include routers from separate files
 tdlapp.include_router(users.router)
