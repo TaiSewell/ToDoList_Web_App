@@ -1,5 +1,10 @@
 import React from 'react';
 
+/*******************************************************
+Function: NotFound()
+Description: This function handles the 404 error page.
+It displays a message indicating that the page was not found.
+*******************************************************/
 function NotFound() {
     return (
         <div>

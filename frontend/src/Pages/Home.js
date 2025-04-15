@@ -1,6 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+/*******************************************************
+Function: Home()
+Description: This function displays the home page of the application.
+It includes a welcome message and navigation links to the login page.
+*******************************************************/
 function Home() {
     return (
         <div>

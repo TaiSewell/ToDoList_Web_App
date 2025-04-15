@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+/*******************************************************
+Function: Register()
+Description: This function handles the user registration process.
+It includes a form for the user to input their username and password.
+*******************************************************/
 function Register() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -21,7 +26,9 @@ function Register() {
             });
 
             if (response.ok) {
-                alert("User registered successfully!");
+                const data = await response.json();
+                console.log("Response data:", data); // Debugging
+                alert(`User registered successfully! Welcome, ${data.username}`);
                 navigate("/login"); // Redirect to the login page
             } else {
                 const errorData = await response.json();
@@ -29,6 +36,7 @@ function Register() {
             }
         } catch (error) {
             console.error("Registration failed:", error);
+            alert("An error occurred. Please try again.");
         }
     };
 

@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-
+/*******************************************************
+Function: Login()
+Description: This function handles the user login process.
+*******************************************************/
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
