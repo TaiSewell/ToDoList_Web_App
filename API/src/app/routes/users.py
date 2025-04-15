@@ -65,10 +65,9 @@ async def create_user(request: Request, db: Session = Depends(get_db)):
     access_token = create_access_token(data={"sub": new_user.username})
 
     return {
-        "id": new_user.id,
-        "username": new_user.username,
+        "message": "User created successfully",
         "access_token": access_token,
-        "token_type": "bearer",
+        "token_type": "bearer"
     }
 
 """
