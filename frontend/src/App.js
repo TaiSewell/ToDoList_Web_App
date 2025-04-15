@@ -1,15 +1,32 @@
 // src/App.js
 import React from 'react';
 import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+// Import Component Pages
+import Home from './Pages/Home';
+import Login from './Pages/Login';
+import Dashboard from './Pages/Dashboard';
+import NotFound from './Pages/NotFound';
+import PrivateRoute from './Pages/PrivateRoute';
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Welcome to My React App</h1>
-        <p>This is a starter for your frontend.</p>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={
+            <PrivateRoute> 
+            <Dashboard /> 
+            </PrivateRoute>} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
