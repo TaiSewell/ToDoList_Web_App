@@ -13,8 +13,8 @@ function Home() {
             <p>Welcome to my home page</p>
             <nav> 
                 <ul>
-                    <li><Link href="/">Home</Link></li>
-                    <li><Link href="/login">Login</Link></li>
+                    <li><Link to="/login">Login</Link></li>
+                    <li><Link to="/register">Create Account</Link></li>
                 </ul>
             </nav>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import "./Login.css";
 
 /*******************************************************
 Function: Login()
@@ -40,6 +41,7 @@ function Login() {
 
         return (
             <div>
+              <Link to="/" className="home-link">Home</Link>
               <h1>Login</h1>
               <form onSubmit={handleLogin}>
                 <label>

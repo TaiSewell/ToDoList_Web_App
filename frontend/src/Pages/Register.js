@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 /*******************************************************
 Function: Register()
@@ -42,6 +43,7 @@ function Register() {
 
     return (
         <div>
+            <Link to="/" className="home-link">Home</Link>
             <h1>Register</h1>
             <form onSubmit={handleRegister}>
                 <label>
