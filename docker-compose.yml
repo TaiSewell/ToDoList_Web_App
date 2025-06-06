@@ -28,8 +28,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-    ports:
-      - "${DB_PORT}:${DB_PORT}"
     networks:
       - app-network
     healthcheck:
