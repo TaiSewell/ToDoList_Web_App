@@ -36,6 +36,7 @@ function Login() {
               }
             } catch (error) {
               console.error("Login failed:", error);
+              alert("An unexpected error occurred. Please Check for valid Username/Password.")
             } 
         }
 
