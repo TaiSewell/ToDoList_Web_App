@@ -29,7 +29,7 @@ function Dashboard() {
             return;
         }
         fetchTasks();
-    }, []);
+    }); // Dependency array includes token and navigate
 
     /********************************************************
      * Function: fetchTasks
@@ -39,7 +39,7 @@ function Dashboard() {
      * updates, deletions, or additions.
     ********************************************************/
     const fetchTasks = async () => {
-        console.log("Authorization header:", `Bearer ${token}`); // Need to delete this line when pushing to prod
+        //console.log("Authorization header:", `Bearer ${token}`); // Need to delete this line when pushing to prod
 
         try {
             const response = await fetch("http://localhost:8000/tasks/", {
@@ -104,7 +104,7 @@ function Dashboard() {
     const handleUpdateTask = async (taskId) => {
         const token = localStorage.getItem("token"); // or your auth method
         try {
-          const response = await fetch(`/api/tasks/${taskId}`, {
+          const response = await fetch(`http://localhost:8000/tasks/${taskId}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -232,13 +232,37 @@ function Dashboard() {
             </div>
 
             <ul>
-                {tasks.map((task) => (
-                    <li key={task.id}>
-                        {task.title}
-                        <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
-                    </li>
-                ))}
-            </ul>
+    {tasks.map((task) => (
+        <li key={task.id}>
+            {editingTaskId === task.id ? (
+                <>
+                    <input
+                        type="text"
+                        value={editedTitle}
+                        onChange={(e) => setEditedTitle(e.target.value)}
+                        placeholder="Title"
+                    />
+                    <button onClick={() => handleUpdateTask(task.id)}>Save</button>
+                    <button onClick={() => {
+                        setEditingTaskId(null);
+                        setEditedTitle("");
+                        setEditedDescription("");
+                    }}>Cancel</button>
+                </>
+            ) : (
+                <>
+                    {task.title}
+                    <button onClick={() => {
+                        setEditingTaskId(task.id);
+                        setEditedTitle(task.title);
+                        setEditedDescription(task.description || "");
+                    }}>Edit</button>
+                    <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
+                </>
+            )}
+        </li>
+    ))}
+</ul>
 
             <button onClick={handleLogout}>Logout</button>
             <button onClick={handleDeleteAccount}>Delete Account</button>
