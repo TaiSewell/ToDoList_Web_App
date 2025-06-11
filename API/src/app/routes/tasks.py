@@ -12,7 +12,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from Database.src import database, models
-from ..auth import hash_password, verify_password, create_access_token, decode_access_token, get_current_user
+from ..auth import get_current_user
 
 # Create a router
 router = APIRouter()
