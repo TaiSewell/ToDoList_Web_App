@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import "./Register.css";
 
 /*******************************************************
 Function: Register()
@@ -28,9 +29,8 @@ function Register() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log("Response data:", data); // Debugging
-                alert(`User registered successfully! Welcome, ${data.username}`);
-                navigate("/login"); // Redirect to the login page
+                alert(`User registered successfully! Welcome, ${data.username || username}`);
+                navigate("/login");
             } else {
                 const errorData = await response.json();
                 alert(errorData.detail || "Registration failed!");
@@ -42,10 +42,10 @@ function Register() {
     };
 
     return (
-        <div>
-            <Link to="/" className="home-link">Home</Link>
-            <h1>Register</h1>
-            <form onSubmit={handleRegister}>
+        <div className="register-container">
+            <Link to="/" className="home-link">← Home</Link>
+            <h1 className="register-title">Create Account</h1>
+            <form className="register-form" onSubmit={handleRegister}>
                 <label>
                     Username:
                     <input
@@ -55,7 +55,6 @@ function Register() {
                         required
                     />
                 </label>
-                <br />
                 <label>
                     Password:
                     <input
@@ -65,7 +64,6 @@ function Register() {
                         required
                     />
                 </label>
-                <br />
                 <button type="submit">Register</button>
             </form>
         </div>

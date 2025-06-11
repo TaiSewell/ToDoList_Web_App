@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Dashboard.css";
 
 function Dashboard() {
     const navigate = useNavigate();
@@ -216,58 +217,62 @@ function Dashboard() {
         }
     };
 
-    return (
-        <div>
-            <h1>Dashboard</h1>
-            <p>Welcome to your dashboard!</p>
+return (
+    <div className="dashboard-container">
+        <h1 className="dashboard-title">Dashboard</h1>
+        <p className="dashboard-welcome">Welcome to your dashboard!</p>
 
-            <div>
-                <input
-                    type="text"
-                    placeholder="New task"
-                    value={newTask}
-                    onChange={(e) => setNewTask(e.target.value)}
-                />
-                <button onClick={handleAddTask}>Add Task</button>
-            </div>
+        <div className="dashboard-input-group">
+            <input
+                type="text"
+                placeholder="Add a new task"
+                value={newTask}
+                onChange={(e) => setNewTask(e.target.value)}
+            />
+            <button onClick={handleAddTask}>Add</button>
+        </div>
 
-            <ul>
-    {tasks.map((task) => (
-        <li key={task.id}>
-            {editingTaskId === task.id ? (
-                <>
-                    <input
-                        type="text"
-                        value={editedTitle}
-                        onChange={(e) => setEditedTitle(e.target.value)}
-                        placeholder="Title"
-                    />
-                    <button onClick={() => handleUpdateTask(task.id)}>Save</button>
-                    <button onClick={() => {
-                        setEditingTaskId(null);
-                        setEditedTitle("");
-                        setEditedDescription("");
-                    }}>Cancel</button>
-                </>
-            ) : (
-                <>
-                    {task.title}
-                    <button onClick={() => {
-                        setEditingTaskId(task.id);
-                        setEditedTitle(task.title);
-                        setEditedDescription(task.description || "");
-                    }}>Edit</button>
-                    <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
-                </>
-            )}
-        </li>
-    ))}
-</ul>
+        <ul className="dashboard-task-list">
+            {tasks.map((task) => (
+                <li key={task.id}>
+                    {editingTaskId === task.id ? (
+                        <>
+                            <input
+                                type="text"
+                                value={editedTitle}
+                                onChange={(e) => setEditedTitle(e.target.value)}
+                                placeholder="Title"
+                            />
+                            <button onClick={() => handleUpdateTask(task.id)}>Save</button>
+                            <button onClick={() => {
+                                setEditingTaskId(null);
+                                setEditedTitle("");
+                                setEditedDescription("");
+                            }}>Cancel</button>
+                        </>
+                    ) : (
+                        <>
+                            {task.title}
+                            <div className="dashboard-task-actions">
+                                <button onClick={() => {
+                                    setEditingTaskId(task.id);
+                                    setEditedTitle(task.title);
+                                    setEditedDescription(task.description || "");
+                                }}>Edit</button>
+                                <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
+                            </div>
+                        </>
+                    )}
+                </li>
+            ))}
+        </ul>
 
+        <div className="dashboard-actions">
             <button onClick={handleLogout}>Logout</button>
             <button onClick={handleDeleteAccount}>Delete Account</button>
         </div>
-    );
+    </div>
+);
 }
 
 export default Dashboard;
