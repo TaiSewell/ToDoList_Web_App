@@ -24,19 +24,22 @@ This is the **API microservice** for the ToDoList web application. It provides s
 ---
 
 ## 📁 Project Structure
-ToDoList_Web_App
+```text
+ToDoList_Web_App/
 ├── API/
-    ├── src/
-    │ ├── app/
-    │ │ ├── main.py
-    | | ├── auth.py
-    │ │ ├── routes/
-    | | |     ├── tasks.py
-    | | |     ├── users.py
-    └── tests/
-    │ └── test_main.py
-    ├── Dockerfile
-    └── requirements.txt
+│ ├── src/
+│ │ ├── app/
+│ │ │ ├── main.py
+│ │ │ ├── auth.py
+│ │ │ ├── routes/
+│ │ │ │ ├── tasks.py
+│ │ │ │ └── users.py
+│ │ └── tests/
+│ │ └── test_main.py
+│ ├── Dockerfile
+│ └── requirements.txt
+```
+---
 
 🧪 7. Running Tests
 This project includes automated tests for the API using Pytest. These tests cover:
@@ -53,19 +56,43 @@ This project includes automated tests for the API using Pytest. These tests cove
 
 To run the tests:
 
-✅ Step 1: Start the Docker containers
-From the root of your project (where docker-compose.yml is located), run:
+✅ Step 1: Start the API container
 
-docker-compose up --build -d
-This will build the images and start all containers in detached mode.
+To start container if it's already built:
+
+```bash
+docker-compose start mysql-container
+```
+
+---
 
 🐳 Step 2: Access the API container
 Run the following command to enter the API container:
 
+```bash
 docker exec -it api-container bash
+```
 
 🧪 Step 3: Run the tests inside the container
 Once you're inside the container, run:
 
+```bash
 pytest
+```
 This will execute all tests located in the src/tests/ directory.
+
+---
+
+### 🧹 Shut Down and Clean Up
+
+To exit the container:
+
+```bash
+exit
+```
+
+To stop the container:
+
+```bash
+docker-compose stop api-container
+```
