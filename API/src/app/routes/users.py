@@ -8,11 +8,10 @@ Description: File that contains user-related endpoints.
 ***********************************************
 """
 from fastapi import APIRouter, Depends, HTTPException, Request
-# from sqlalchemy import text
 from sqlalchemy.orm import Session
 from Database.src import database, models
 from fastapi.security import OAuth2PasswordRequestForm
-from auth import hash_password, verify_password, create_access_token, get_current_user
+from ..auth import hash_password, verify_password, create_access_token, get_current_user
 
 # Create a router
 router = APIRouter()
