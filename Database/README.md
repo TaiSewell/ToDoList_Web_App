@@ -27,14 +27,6 @@ Copy the example file:
 ```bash
 cp .env.example .env
 ```
-### 📁 `.env.example` (to include in your repo)
-
-```env
-MYSQL_ROOT_PASSWORD=your_root_password
-MYSQL_DATABASE=todolist_db
-MYSQL_USER=your_user
-MYSQL_PASSWORD=your_user_password
-```
 ### 2. Edit .env with your values
 MYSQL_ROOT_PASSWORD=your_root_password
 MYSQL_DATABASE=todolist_db
