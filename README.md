@@ -72,9 +72,9 @@ Create your own venv inside the root directory to help with all backend dependen
 python -m venv venv
 ```
 
-### ✅ Step 3: Check each microservice's directory for the README.md files
+### ✅ Step 3: Check each microservice directory for the README.md file
 
-- Read the files and setup each microservice's properly
+- Read the file and configure each microservice properly
 
 ### ✅ Step 4: Start the Docker containers
 

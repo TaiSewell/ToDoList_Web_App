@@ -41,7 +41,7 @@ ToDoList_Web_App/
 ```
 ---
 
-🧪 7. Running Tests
+## 🧪 Running Tests
 This project includes automated tests for the API using Pytest. These tests cover:
 
 ✅ User registration and login
@@ -81,8 +81,29 @@ pytest
 ```
 This will execute all tests located in the src/tests/ directory.
 
+If it is not picking up pytest for some reason:
+- install pytest in the api-container
+
+```bash
+pip install pytest
+```
+
 ---
 
+## Linting
+This project uses pylint to enforce code quality and consistency.
+
+Make sure you are in API directory:
+
+```bash
+cd API
+```
+
+📌 Run Lint Check
+
+```bash
+pylint src/app/
+```
 ### 🧹 Shut Down and Clean Up
 
 To exit the container:
