@@ -29,11 +29,54 @@ DevOps: Docker, Docker Compose
 
 ## 🚀 Getting Started
 
-### ✅ Step 1: Create venv (Virtual Environment)
+### ✅ Step 1: Install all required softwares
+
+Required Software
+- Python (3.10+)
+
+Required for the FastAPI backend
+
+- Node.js & npm
+
+Required to run and build the React frontend
+
+- Docker & Docker Compose
+
+Required for containerizing and running the full app (frontend, backend, database)
+
+MySQL Workbench (Optional)
+
+- GUI for viewing and managing the MySQL database
+
+Git
+
+- For cloning the project and managing source code
+
+Visual Studio Code
+
+- Recommended IDE for writing and managing code
+
+⚙️ Optional but Useful Tools
+- Postman – For testing API endpoints manually
+https://www.postman.com/
+
+- Docker VS Code Extension – Helps visualize and manage containers inside VS Code
+
+### ✅ Step 2: Create venv (Virtual Environment)
 
 Create your own venv inside the root directory to help with all backend dependencies
 
-### ✅ Step 2: Start the Docker containers
+🐍 For Windows (Command Prompt or PowerShell):
+
+```bash
+python -m venv venv
+```
+
+### ✅ Step 3: Check each microservice's directory for the README.md files
+
+- Read the files and setup each microservice's properly
+
+### ✅ Step 4: Start the Docker containers
 
 From the root of your project (where `docker-compose.yml` is located), run:
 
@@ -48,11 +91,7 @@ Start the MySQL database
 
 Serve the frontend (if configured)
 
-### ✅ Step 3: Check each microservice's directory for the README.md files
-
-- Reading the files will demonstrate how to use each microservice
-
-### ✅ Step 4: Shut Down & Clean Up
+### ✅ Step 5: Shut Down & Clean Up
 
 - Whenever you are done shutdown the containers
 

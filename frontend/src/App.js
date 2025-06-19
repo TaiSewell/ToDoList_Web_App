@@ -1,16 +1,15 @@
 // src/App.js
 import React from 'react';
 import './App.css';
-import Register from './Pages/Register';
+import Register from './pages/Register';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 // Import Component Pages
-import Home from './Pages/Home';
-import Login from './Pages/Login';
-import Dashboard from './Pages/Dashboard';
-import NotFound from './Pages/NotFound';
-import PrivateRoute from './Pages/PrivateRoute';
-
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import NotFound from './pages/NotFound';
+import PrivateRoute from './pages/PrivateRoute';
 
 
 function App() {
