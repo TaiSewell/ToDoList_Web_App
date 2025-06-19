@@ -1,0 +1,6 @@
+[MESSAGES CONTROL]
+disable = 
+    C0116,  # Missing function or method docstring
+    C0301,  # Line too long
+    W0105,  # Pointless String Statement
+    C0303   # Trailing Whitespace

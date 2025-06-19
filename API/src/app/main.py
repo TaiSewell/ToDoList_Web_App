@@ -8,16 +8,13 @@ Description: File that contains the main API.
 ***********************************************
 """
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from Database.src import models, database
 from .routes import users, tasks
 
-tdlapp = FastAPI()
-
-# Include routers from separate files
-tdlapp.include_router(users.router)
-tdlapp.include_router(tasks.router)
 
 """
 ***********************************************
@@ -48,9 +45,26 @@ in Database/src/models.py. from the start.
 returns: N/A
 ***********************************************
 """
-@tdlapp.on_event("startup")
-def startup():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup logic
     models.Base.metadata.create_all(bind=database.engine)
+    yield
+
+tdlapp = FastAPI(lifespan=lifespan)
+
+# Add CORS middleware
+tdlapp.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Frontend origin
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
+
+# Include routers from separate files
+tdlapp.include_router(users.router)
+tdlapp.include_router(tasks.router)
 
 
 """

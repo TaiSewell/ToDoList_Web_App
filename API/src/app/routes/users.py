@@ -8,11 +8,11 @@ Description: File that contains user-related endpoints.
 ***********************************************
 """
 from fastapi import APIRouter, Depends, HTTPException, Request
-from sqlalchemy import text
 from sqlalchemy.orm import Session
 from Database.src import database, models
-from ..auth import hash_password, verify_password, create_access_token, get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi import status
+from ..auth import hash_password, verify_password, create_access_token, get_current_user
 
 # Create a router
 router = APIRouter()
@@ -65,15 +65,14 @@ async def create_user(request: Request, db: Session = Depends(get_db)):
     access_token = create_access_token(data={"sub": new_user.username})
 
     return {
-        "id": new_user.id,
-        "username": new_user.username,
+        "message": "User created successfully",
         "access_token": access_token,
-        "token_type": "bearer",
+        "token_type": "bearer"
     }
 
 """
 ***********************************************
-Method: login_for_access_token()
+Method: login()
 
 Description: This method is used to authenticate 
 an existing user by verifying their credentials 
@@ -84,10 +83,8 @@ returns: A dictionary containing the access token
 and token type.
 ***********************************************
 """
-@router.post("/token")
-def login_for_access_token(
-    form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
-):
+@router.post("/login")
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     # Check if the user exists
     user = db.query(models.User).filter(models.User.username == form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
