@@ -104,6 +104,10 @@ Shut Down & Delete Data:
 docker-compose down -v
 ```
 
+---
+
 ## App Demo 
 
-- Check out the App Demo directory to see screenshots and a video of the application
+- Check out the App Demo Video Down Below
+
+Watch the [app demo on YouTube](https://youtu.be/EGW42GCpDXk).
