@@ -44,9 +44,10 @@ async def create_task(request: Request, db: Session = Depends(get_db), current_u
     task_data = await request.json()
     title = task_data.get("title")
     description = task_data.get("description")
+    completed = task_data.get("completed", False)
 
     # Create a new task and associate it with the current user
-    new_task = models.Task(title=title, description=description, owner_id=current_user.id)
+    new_task = models.Task(title=title, description=description, completed=completed, owner_id=current_user.id)
     db.add(new_task)
     db.commit()
     db.refresh(new_task)
@@ -99,6 +100,7 @@ async def update_task(task_id: int, request: Request, db: Session = Depends(get_
     task_data = await request.json()
     title = task_data.get("title")
     description = task_data.get("description")
+    completed = task_data.get("completed")
 
     task = db.query(models.Task).filter(models.Task.id == task_id, models.Task.owner_id == current_user.id).first()
     if task is None:
@@ -108,6 +110,8 @@ async def update_task(task_id: int, request: Request, db: Session = Depends(get_
         task.title = title
     if description:
         task.description = description
+    if completed is not None:
+        task.completed = completed
 
     db.commit()
     db.refresh(task)

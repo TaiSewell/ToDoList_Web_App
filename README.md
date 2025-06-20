@@ -91,6 +91,12 @@ Start the MySQL database
 
 Serve the frontend (if configured)
 
+If the api-container is giving an error saying "connection refused or couldn't connect to database":
+    - Go to docker-compose.yml file in root 
+    - Adjust the interval time on the database service
+    - Interval range to mess around with 5-15 seconds
+    - Should fix the issue
+
 ### ✅ Step 5: Shut Down & Clean Up
 
 - Whenever you are done shutdown the containers
@@ -110,4 +116,5 @@ docker-compose down -v
 
 - Check out the App Demo Video Down Below
 
-Watch the [app demo on YouTube](https://youtu.be/EGW42GCpDXk).
+Watch the [app demo on YouTube](https://youtu.be/yWa3-FHXZug).
+

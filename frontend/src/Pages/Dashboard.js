@@ -11,6 +11,8 @@ function Dashboard() {
     const [editingTaskId, setEditingTaskId] = useState(null);
     const [editedTitle, setEditedTitle] = useState("");
     const [editedDescription, setEditedDescription] = useState("");
+    const [editedCompleted, setEditedCompleted] = useState(false);
+    const [accountDeleted, setAccountDeleted] = useState(false);
 
     /********************************************************
      * useEffect Hook
@@ -20,17 +22,9 @@ function Dashboard() {
      * to load tasks.
     ********************************************************/
     useEffect(() => {
-        if(!token) {
-            navigate("/login)");
-            return;
-        }
-        if (!token) {
-            alert("No token found. Please log in again.");
-            navigate("/login");
-            return;
-        }
+        if (!token || accountDeleted) return;
         fetchTasks();
-    }); // Dependency array includes token and navigate
+    }, [token, accountDeleted]); // Dependency array includes token and navigate
 
     /********************************************************
      * Function: fetchTasks
@@ -79,6 +73,7 @@ function Dashboard() {
                 body: JSON.stringify({ 
                     title: newTask,
                     description: "",
+                    completed: false 
                  })
             });
             if (response.ok) {
@@ -114,6 +109,7 @@ function Dashboard() {
             body: JSON.stringify({
               title: editedTitle,
               description: editedDescription,
+              completed: editedCompleted,
             }),
           });
       
@@ -134,6 +130,7 @@ function Dashboard() {
           setEditingTaskId(null);
           setEditedTitle("");
           setEditedDescription("");
+          setEditedCompleted(false);
         } catch (err) {
           console.error(err);
           alert("Could not update task.");
@@ -205,8 +202,10 @@ function Dashboard() {
             });
             if (response.ok) {
                 alert("Your account has been deleted successfully.");
-                localStorage.removeItem("token"); // Remove the token
-                navigate("/register"); // Redirect to the registration page
+                localStorage.removeItem("token"); 
+                setTasks([]);                      
+                setAccountDeleted(true);          
+                navigate("/register");           
             } else {
                 const errorData = await response.json();
                 alert(errorData.detail || "Failed to delete account.");
@@ -216,6 +215,32 @@ function Dashboard() {
             alert("An error occurred. Please try again.");
         }
     };
+
+    /*******************************************************
+      Function: handleCheckboxToggle
+      Description: handles the toggling of the checkbox for a task.
+      It updates the task's completion status in the local state and
+      sends a PUT request to the backend to update the task's status.
+     *******************************************************/
+    const handleCheckboxToggle = async (taskId, currentStatus) => {
+    const updatedTasks = tasks.map((task) =>
+        task.id === taskId ? { ...task, completed: !currentStatus } : task
+    );
+    setTasks(updatedTasks);
+
+    try {
+        await fetch(`http://localhost:8000/tasks/${taskId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ completed: !currentStatus }),
+        });
+    } catch (error) {
+        console.error("Error updating completion status:", error);
+    }
+};
 
 return (
     <div className="dashboard-container">
@@ -248,24 +273,38 @@ return (
                                 setEditingTaskId(null);
                                 setEditedTitle("");
                                 setEditedDescription("");
+                                setEditedCompleted(false);
                             }}>Cancel</button>
                         </>
                     ) : (
                         <>
-                            {task.title}
-                            <div className="dashboard-task-actions">
-                                <button onClick={() => {
-                                    setEditingTaskId(task.id);
-                                    setEditedTitle(task.title);
-                                    setEditedDescription(task.description || "");
-                                }}>Edit</button>
-                                <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
-                            </div>
-                        </>
-                    )}
-                </li>
-            ))}
-        </ul>
+        <input
+            type="checkbox"
+            checked={task.completed}
+            onChange={() => handleCheckboxToggle(task.id, task.completed)}
+            style={{ marginRight: "10px" }}
+          />
+          <span style={{ textDecoration: task.completed ? "line-through" : "none" }}>
+            {task.title}
+          </span>
+          <div className="dashboard-task-actions">
+            <button
+              onClick={() => {
+                setEditingTaskId(task.id);
+                setEditedTitle(task.title);
+                setEditedDescription(task.description || "");
+                setEditedCompleted(task.completed);
+              }}
+            >
+              Edit
+            </button>
+            <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
+          </div>
+        </>
+      )}
+    </li>
+  ))}
+</ul>
 
         <div className="dashboard-actions">
             <button onClick={handleLogout}>Logout</button>
