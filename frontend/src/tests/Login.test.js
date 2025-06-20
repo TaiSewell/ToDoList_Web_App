@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Login from "../pages/Login"; // adjust import path
 import { BrowserRouter } from "react-router-dom";
 

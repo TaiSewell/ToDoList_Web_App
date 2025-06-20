@@ -8,12 +8,12 @@ Description: File that contains the main API.
 ***********************************************
 """
 from fastapi import FastAPI, Depends, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from Database.src import models, database
 from .routes import users, tasks
+from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 
 
 """
