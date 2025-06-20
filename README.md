@@ -91,7 +91,7 @@ Start the MySQL database
 
 Serve the frontend (if configured)
 
-## ⚠️ api-container error warning - "connection refused or couldn't connect to database":
+### ⚠️ api-container error warning - "connection refused or couldn't connect to database":
 ```txt
     - Go to docker-compose.yml file in root 
     - Adjust the interval time on the database service
