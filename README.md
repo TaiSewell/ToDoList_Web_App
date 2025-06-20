@@ -103,3 +103,7 @@ Shut Down & Delete Data:
 ```bash
 docker-compose down -v
 ```
+
+## App Demo 
+
+- Check out the App Demo directory to see screenshots and a video of the application
