@@ -48,6 +48,7 @@ returns: N/A
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup logic
+    models.Base.metadata.drop_all(bind=database.engine)
     models.Base.metadata.create_all(bind=database.engine)
     yield
 

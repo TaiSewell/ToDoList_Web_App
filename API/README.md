@@ -61,7 +61,7 @@ To run the tests:
 To start container if it's already built:
 
 ```bash
-docker-compose start mysql-container
+docker-compose start <api-container-name>
 ```
 
 ---
@@ -70,7 +70,7 @@ docker-compose start mysql-container
 Run the following command to enter the API container:
 
 ```bash
-docker exec -it api-container bash
+docker exec -it <api-container-name> bash
 ```
 
 🧪 Step 3: Run the tests inside the container
@@ -115,5 +115,5 @@ exit
 To stop the container:
 
 ```bash
-docker-compose stop api-container
+docker-compose stop <api-container-name>
 ```

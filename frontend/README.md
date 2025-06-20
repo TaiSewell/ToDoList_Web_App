@@ -165,7 +165,7 @@ ESLint is configured to check for things like unused variables, missing PropType
 
 ## Accessing The Frontend Container
 
-✅ Step 1: Start the API container
+✅ Step 1: Start the frontend container
 
 To start container if it's already built:
 
@@ -175,7 +175,7 @@ docker-compose start <frontend-container-name>
 
 ---
 
-🐳 Step 2: Access the API container
+🐳 Step 2: Access the frontend container
 Run the following command to enter the API container:
 
 ```bash

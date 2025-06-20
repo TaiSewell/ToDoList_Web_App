@@ -44,7 +44,7 @@ Make sure Docker is installed and containers are built, then run:
 To start container if it's already built:
 
 ```bash
-docker-compose start mysql-container
+docker-compose start <db-container-name>
 ```
 
 ---
@@ -54,7 +54,7 @@ docker-compose start mysql-container
 Connect to Database:
 
 ```bash
-docker exec -it mysql-container bash
+docker exec -it <db-container-name> bash
 ```
 Login:
 
@@ -93,5 +93,5 @@ exit
 To stop the container:
 
 ```bash
-docker-compose stop mysql-container
+docker-compose stop <db-container-name>
 ```

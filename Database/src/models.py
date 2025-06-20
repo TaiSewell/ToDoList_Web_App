@@ -43,5 +43,6 @@ class Task(Base):
     title = Column(String(100), nullable=False)                             
     description = Column(String(255))                                       
     owner_id = Column(Integer, ForeignKey('users.id'))
+    completed = Column(Boolean, default=False)
 
     owner = relationship("User", back_populates="tasks")

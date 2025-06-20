@@ -72,9 +72,9 @@ Create your own venv inside the root directory to help with all backend dependen
 python -m venv venv
 ```
 
-### ✅ Step 3: Check each microservice directory for the README.md file
+### ✅ Step 3: Check each microservice's directory for the README.md files
 
-- Read the file and configure each microservice properly
+- Read the files and setup each microservice's properly
 
 ### ✅ Step 4: Start the Docker containers
 
@@ -91,6 +91,12 @@ Start the MySQL database
 
 Serve the frontend (if configured)
 
+If the api-container is giving an error saying "connection refused or couldn't connect to database":
+    - Go to docker-compose.yml file in root 
+    - Adjust the interval time on the database service
+    - Interval range to mess around with 5-15 seconds
+    - Should fix the issue
+
 ### ✅ Step 5: Shut Down & Clean Up
 
 - Whenever you are done shutdown the containers
@@ -103,3 +109,11 @@ Shut Down & Delete Data:
 ```bash
 docker-compose down -v
 ```
+
+---
+
+## App Demo 
+
+- Check out the App Demo Video Down Below
+
+Watch the [app demo on YouTube](https://youtu.be/yWa3-FHXZug).
