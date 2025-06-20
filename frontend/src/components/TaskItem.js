@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from 'prop-types';
 
 function TaskItem({ task, onDelete, onEdit }) {
   return (
@@ -13,13 +12,3 @@ function TaskItem({ task, onDelete, onEdit }) {
 }
 
 export default TaskItem;
-
-TaskItem.propTypes = {
-  task: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-  }).isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
-};

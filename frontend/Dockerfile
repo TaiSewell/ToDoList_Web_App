@@ -13,6 +13,8 @@ RUN npm install
 # Copy the rest of the application files
 COPY . .
 
+RUN dir /app/src/pages
+
 # Build the React app
 RUN npm run build
 
